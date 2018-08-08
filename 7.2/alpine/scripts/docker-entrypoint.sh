@@ -15,7 +15,7 @@ fi
 
 # when invoked with e.g.: docker run solr -help
 if [ "${1:0:1}" = '-' ]; then
-    set -- solr-foreground "$@"
+    set -- solr-foreground "solr-create -c chatpal -n chatpal -d /opt/solr/server/solr/configsets/chatpal"
 fi
 
 # execute command passed in as arguments.
