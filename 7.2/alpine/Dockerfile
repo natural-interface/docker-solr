@@ -16,14 +16,25 @@ RUN apk add --no-cache ca-certificates wget && \
         update-ca-certificates
 
 ENV SOLR_USER="solr" \
-    SOLR_UID="8983" \
+    SOLR_UID="{$PORT}" \
     SOLR_GROUP="solr" \
-    SOLR_GID="8983" \
+    SOLR_GID="{$PORT}" \
     SOLR_VERSION="7.2.1" \
     SOLR_URL="${SOLR_DOWNLOAD_SERVER:-https://archive.apache.org/dist/lucene/solr}/7.2.1/solr-7.2.1.tgz" \
     SOLR_SHA256="1dbe8dda842d2008210c0c56d56b714713444fb4e05390bb0bcdec29cf957748" \
     SOLR_KEYS="052C5B48A480B9CEA9E218A5F98C13CFA5A135D8" \
     PATH="/opt/solr/bin:/opt/docker-solr/scripts:$PATH"
+#
+#
+#ENV SOLR_USER="solr" \
+#    SOLR_UID="8983" \
+#    SOLR_GROUP="solr" \
+#    SOLR_GID="8983" \
+#    SOLR_VERSION="7.2.1" \
+#    SOLR_URL="${SOLR_DOWNLOAD_SERVER:-https://archive.apache.org/dist/lucene/solr}/7.2.1/solr-7.2.1.tgz" \
+#    SOLR_SHA256="1dbe8dda842d2008210c0c56d56b714713444fb4e05390bb0bcdec29cf957748" \
+#    SOLR_KEYS="052C5B48A480B9CEA9E218A5F98C13CFA5A135D8" \
+#    PATH="/opt/solr/bin:/opt/docker-solr/scripts:$PATH"
 
 ENV GOSU_VERSION 1.10
 ENV GOSU_KEY B42F6819007F00F88E364FD4036A9C25BF357DD4
@@ -79,9 +90,11 @@ RUN set -e; \
 COPY scripts /opt/docker-solr/scripts
 RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/docker-solr /opt/mysolrhome
 
-EXPOSE 8983
+#EXPOSE 8983
+EXPOSE $PORT
+
 WORKDIR /opt/solr
 USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["solr-foreground"]
+CMD ["solr-foreground"]#
