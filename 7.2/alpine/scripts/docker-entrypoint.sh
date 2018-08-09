@@ -9,7 +9,8 @@ if [[ "$VERBOSE" = "yes" ]]; then
 fi
 
 if [[ -v SOLR_PORT ]] && ! grep -E -q '^[0-9]+$' <<<"${SOLR_PORT:-}"; then
-  SOLR_PORT=8983
+  #SOLR_PORT=8983
+  SOLR_PORT=$PORT
   export SOLR_PORT
 fi
 
@@ -24,4 +25,6 @@ fi
 # like solr-foreground, solr-create, solr-precreate, solr-demo).
 # Note: if you specify "solr", you'll typically want to add -f to run it in
 # the foreground.
-exec "$@"
+#exec "$@"
+
+solr-create -c chatpal -n chatpal -d /opt/solr/server/solr/configsets/chatpal
